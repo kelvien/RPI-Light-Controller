@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>Boo hoo</title>
+<!--CSS Files-->
+<link href="plugins/bootstrap-3.2.0-dist/css/bootstrap.css" rel="stylesheet">
+<!--<link href="plugins/bootstrap-3.2.0-dist/css/bootstrap-theme.min" rel="stylesheet">-->
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+</head>
+<body>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<p>Currently the light on the livingroom is <span id="light-status"></span></p>
+</div>
+</div>
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+	<button type="button" class="btn btn-primary btn-block" id="lightOn">Turn On</button>
+	<button type="button" class="btn btn-danger btn-block" id="lightOff">Turn Off</button>
+</div>	
+
+<!--Javascript Files-->
+<script src="plugins/jquery-2.1.1/jQuery-2.1.1.js"></script>
+<script src="plugins/bootstrap-3.2.0-dist/js/bootstrap.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	$.get("lightController.php", { check : 'yo' },
+		function(data){
+		console.log(data);
+			$("#light-status").html(getStatus(data));
+		});
+	});
+
+	function getStatus(status){
+		switch(status){
+			case '0':
+			return "<span class='label label-success'>On</span>";
+			case '1':
+			return "<span class='label label-default'>Off</span>";
+			default:
+			return "<span class='label label-danger'>Error</span>";
+		}
+	}
+
+	$("#lightOn").click(function(){
+		$.get("lightController.php", { val : "on" } );
+	});
+
+	$("#lightOff").click(function(){
+		$.get("lightController.php", { val : "off" } );
+	});
+
+	$("#check").click(function(){
+		$.get("lightController.php", { check: 'yo' }, function(data){
+    				alert( "Data Loaded: " + data );
+  			});
+		});
+</script>
+</body>
+</html>
